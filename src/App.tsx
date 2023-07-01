@@ -1,9 +1,9 @@
 import { useState } from "react"
 import moment from "moment"
 import SheetHeader from "./components/SheetHeader"
-import TimeInput from "./components/TimeInput"
 import calculateTimeDifference from "./utils/calculateTimeDifference"
 import Layout from "./components/Layout"
+import WorkSummaryPanel from "./components/WorkSummaryPanel"
 
 const headerNames = ["Day", "Start", "Stop", "Duration", "Earnings"]
 const daysThisWeek = Array.from({ length: 7 }, (_, i) =>
@@ -18,7 +18,7 @@ export default function App() {
       stop: "00:00",
     }))
   )
-  const [hourlyRate, setHourlyRate] = useState(0)
+  const [hourlyRate, setHourlyRate] = useState<number | null>(null)
 
   function updateStartStopData(
     dayToModify: string,
@@ -36,21 +36,26 @@ export default function App() {
 
   return (
     <Layout>
+      <WorkSummaryPanel
+        hourlyRate={hourlyRate}
+        setHourlyRate={setHourlyRate}
+        startStopData={startStopData}
+      />
       <div className="text-text">
-        <div className="grid grid-cols-5 gap-5 py-4 rounded">
+        <div className="grid grid-cols-5 gap-5 rounded py-4">
           {headerNames.map(name => (
             <SheetHeader icon={name} header={name} key={name} />
           ))}
         </div>
-        <div className="grid grid-cols-5 gap-4 border-4 border-secondaryBg py-4 rounded">
+        <div className="grid grid-cols-5 gap-4 rounded border-4 border-secondaryBg py-4">
           {startStopData.map(({ day, start, stop }) => {
             const duration = calculateTimeDifference(start, stop)
             return (
               <>
                 <span
-                  className={`w-3/5 mx-auto ${
+                  className={`mx-auto w-3/5 ${
                     day === moment().format("dddd M/D")
-                      ? "text-primary font-bold"
+                      ? "font-bold text-primary"
                       : ""
                   }`}
                 >
@@ -62,7 +67,7 @@ export default function App() {
                   onChange={e =>
                     updateStartStopData(day, "start", e.target.value)
                   }
-                  className="w-3/5 shadow-sm py-1 px-2 rounded mx-auto outline-none focus:outline-primary selection:bg-transparent"
+                  className="selection:bg-transparent mx-auto w-3/5 rounded px-2 py-1 shadow-sm outline-none focus:outline-primary"
                 />
                 <input
                   value={stop}
@@ -70,10 +75,10 @@ export default function App() {
                   onChange={e =>
                     updateStartStopData(day, "stop", e.target.value)
                   }
-                  className="w-3/5 shadow-sm py-1 px-2 rounded mx-auto"
+                  className="mx-auto w-3/5 rounded px-2 py-1 shadow-sm"
                 />
                 <span className="mx-auto">{duration} Hrs</span>
-                <span className="mx-auto">${duration * hourlyRate}</span>
+                <span className="mx-auto">${duration * (hourlyRate ?? 0)}</span>
               </>
             )
           })}

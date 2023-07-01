@@ -8,7 +8,7 @@ export default {
       primaryBg: "#fcfcfd",
       secondaryBg: "#F7F7F7",
       primary: "#6488be",
-      secondary: "#edebf0",
+      secondary: "#853857",
       white: "#ffffff",
     },
     fontFamily: {
