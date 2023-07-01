@@ -9,6 +9,7 @@ export default {
       secondaryBg: "#F7F7F7",
       primary: "#6488be",
       secondary: "#edebf0",
+      white: "#ffffff",
     },
     fontFamily: {
       sans: ["Karla", "Montserrat", "sans-serif"],
