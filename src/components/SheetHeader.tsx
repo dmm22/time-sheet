@@ -16,9 +16,9 @@ export default function SheetHeader({ icon, header }: IconProps) {
   }, [])
 
   return (
-    <div className="flex content-center">
+    <div className="flex content-center justify-center">
       <img className="w-5 mr-1" src={iconSrc} />
-      <strong className="font-medium">{header}</strong>
+      <strong className="font-medium font-bold">{header}</strong>
     </div>
   )
 }
